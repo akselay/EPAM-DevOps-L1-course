@@ -1,4 +1,5 @@
-Linux + Bash tasks:
+Linux + Bash tasks
+https://github.com/akselay/EPAM-DevOps-L1-course/tree/main/LinuxBash
 (script files contains hometask requirments and instructions)
 
 A_network_scan
