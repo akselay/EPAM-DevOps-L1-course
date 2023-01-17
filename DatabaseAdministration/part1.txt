@@ -1,0 +1,744 @@
+Enter password: *******
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 11
+Server version: 8.0.31 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+6 rows in set (0.00 sec)
+
+mysql> CREATE DATABASE test;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| test               |
+| world              |
++--------------------+
+7 rows in set (0.00 sec)
+
+mysql> USE test;
+Database changed
+mysql> \s
+--------------
+C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe  Ver 8.0.31 for Win64 on x86_64 (MySQL Community Server - GPL)
+
+Connection id:          11
+Current database:       test
+Current user:           root@localhost
+SSL:                    Cipher in use is TLS_AES_256_GCM_SHA384
+Using delimiter:        ;
+Server version:         8.0.31 MySQL Community Server - GPL
+Protocol version:       10
+Connection:             localhost via TCP/IP
+Server characterset:    utf8mb4
+Db     characterset:    utf8mb4
+Client characterset:    cp866
+Conn.  characterset:    cp866
+TCP port:               3306
+Binary data as:         Hexadecimal
+Uptime:                 13 min 2 sec
+
+Threads: 2  Questions: 34  Slow queries: 0  Opens: 168  Flush tables: 3  Open tables: 87  Queries per second avg: 0.043
+--------------
+
+mysql> SHOW TABLES;
+Empty set (0.01 sec)
+
+mysql> CREATE TABLE users ( id INT(5) AUTO_INCREMENT PRIMARY KEY, name VARCHAR(64), surname VARCHAR(64), age TINYINT(3), email VARCHAR(64), status VARCHAR(128)) DEFAULT CHARACTER SET UTF8;
+Query OK, 0 rows affected, 3 warnings (0.02 sec)
+
+mysql> SHOW TABLES;
++----------------+
+| Tables_in_test |
++----------------+
+| users          |
++----------------+
+1 row in set (0.00 sec)
+
+mysql> DESCRIBE users;
++---------+--------------+------+-----+---------+----------------+
+| Field   | Type         | Null | Key | Default | Extra          |
++---------+--------------+------+-----+---------+----------------+
+| id      | int          | NO   | PRI | NULL    | auto_increment |
+| name    | varchar(64)  | YES  |     | NULL    |                |
+| surname | varchar(64)  | YES  |     | NULL    |                |
+| age     | tinyint      | YES  |     | NULL    |                |
+| email   | varchar(64)  | YES  |     | NULL    |                |
+| status  | varchar(128) | YES  |     | NULL    |                |
++---------+--------------+------+-----+---------+----------------+
+6 rows in set (0.01 sec)
+
+mysql> INSERT INTO users VALUES(NULL, 'Mykola', 'Matvienko', '25', 'matvienko@sample.mail', 'work');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO users VALUES(NULL, 'Oleh', 'Chuyko', '29', 'chuiko@sample.mail', 'notwork');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO users VALUES(NULL, 'Oleksandr', 'Yuschenko', '27', 'yuschenko@sample.mail', 'work');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM users;
++----+-----------+-----------+------+-----------------------+---------+
+| id | name      | surname   | age  | email                 | status  |
++----+-----------+-----------+------+-----------------------+---------+
+|  1 | Mykola    | Matvienko |   25 | matvienko@sample.mail | work    |
+|  2 | Oleh      | Chuyko    |   29 | chuiko@sample.mail    | notwork |
+|  3 | Oleksandr | Yuschenko |   27 | yuschenko@sample.mail | work    |
++----+-----------+-----------+------+-----------------------+---------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM users WHERE status='work';
++----+-----------+-----------+------+-----------------------+--------+
+| id | name      | surname   | age  | email                 | status |
++----+-----------+-----------+------+-----------------------+--------+
+|  1 | Mykola    | Matvienko |   25 | matvienko@sample.mail | work   |
+|  3 | Oleksandr | Yuschenko |   27 | yuschenko@sample.mail | work   |
++----+-----------+-----------+------+-----------------------+--------+
+2 rows in set (0.00 sec)
+
+mysql> UPDATE users SET status='work' WHERE surname='Chuiko';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> SELECT * FROM users WHERE status='work';
++----+-----------+-----------+------+-----------------------+--------+
+| id | name      | surname   | age  | email                 | status |
++----+-----------+-----------+------+-----------------------+--------+
+|  1 | Mykola    | Matvienko |   25 | matvienko@sample.mail | work   |
+|  3 | Oleksandr | Yuschenko |   27 | yuschenko@sample.mail | work   |
++----+-----------+-----------+------+-----------------------+--------+
+2 rows in set (0.00 sec)
+
+mysql> UPDATE users SET status='work' WHERE surname='Chuyko';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM users WHERE status='work';
++----+-----------+-----------+------+-----------------------+--------+
+| id | name      | surname   | age  | email                 | status |
++----+-----------+-----------+------+-----------------------+--------+
+|  1 | Mykola    | Matvienko |   25 | matvienko@sample.mail | work   |
+|  2 | Oleh      | Chuyko    |   29 | chuiko@sample.mail    | work   |
+|  3 | Oleksandr | Yuschenko |   27 | yuschenko@sample.mail | work   |
++----+-----------+-----------+------+-----------------------+--------+
+3 rows in set (0.00 sec)
+
+mysql> DELETE FROM users WHERE surname='Yuschenko';
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM users WHERE status='work';
++----+--------+-----------+------+-----------------------+--------+
+| id | name   | surname   | age  | email                 | status |
++----+--------+-----------+------+-----------------------+--------+
+|  1 | Mykola | Matvienko |   25 | matvienko@sample.mail | work   |
+|  2 | Oleh   | Chuyko    |   29 | chuiko@sample.mail    | work   |
++----+--------+-----------+------+-----------------------+--------+
+2 rows in set (0.00 sec)
+
+mysql> INSERT INTO users VALUES(NULL, 'Oleksandr', 'Yuschenko', '27', 'yuschenko@sample.mail', 'work');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM users WHERE status='work';
++----+-----------+-----------+------+-----------------------+--------+
+| id | name      | surname   | age  | email                 | status |
++----+-----------+-----------+------+-----------------------+--------+
+|  1 | Mykola    | Matvienko |   25 | matvienko@sample.mail | work   |
+|  2 | Oleh      | Chuyko    |   29 | chuiko@sample.mail    | work   |
+|  4 | Oleksandr | Yuschenko |   27 | yuschenko@sample.mail | work   |
++----+-----------+-----------+------+-----------------------+--------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT COUNT(*) FROM users;
++----------+
+| COUNT(*) |
++----------+
+|        3 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> CREATE USER 'testuser'@'localhost' IDENTIFIED BY '********';
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> GRANT SELECT ON test.* TO 'testuser'@'localhost';
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> CREATE USER 'testadm'@'localhost' IDENTIFIED BY '*********';
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> GRANT ALL PRIVILEGES ON test.* TO 'testadm'@'localhost';
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SELECT user,host FROM mysql.user;
++------------------+-----------+
+| user             | host      |
++------------------+-----------+
+| admin            | %         |
+| akselay          | %         |
+| user             | %         |
+| admin            | localhost |
+| mysql.infoschema | localhost |
+| mysql.session    | localhost |
+| mysql.sys        | localhost |
+| root             | localhost |
+| testadm          | localhost |
+| testuser         | localhost |
++------------------+-----------+
+10 rows in set (0.00 sec)
+
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| test               |
+| world              |
++--------------------+
+7 rows in set (0.00 sec)
+
+mysql> SHOW TABLES;
++----------------+
+| Tables_in_test |
++----------------+
+| users          |
++----------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT * FROM users;
++----+-----------+-----------+------+-----------------------+--------+
+| id | name      | surname   | age  | email                 | status |
++----+-----------+-----------+------+-----------------------+--------+
+|  1 | Mykola    | Matvienko |   25 | matvienko@sample.mail | work   |
+|  2 | Oleh      | Chuyko    |   29 | chuiko@sample.mail    | work   |
+|  4 | Oleksandr | Yuschenko |   27 | yuschenko@sample.mail | work   |
++----+-----------+-----------+------+-----------------------+--------+
+3 rows in set (0.00 sec)
+
+Microsoft Windows [Version 10.0.19044.2130]
+(c) Корпорація Майкрософт. Усі права захищені.
+
+C:\Users\Akselay>cd C:\Program Files\MySQL\MySQL Server 8.0\bin
+
+C:\Program Files\MySQL\MySQL Server 8.0\bin>mysql -u testadm -p
+Enter password: *********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 18
+Server version: 8.0.31 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> \s
+--------------
+mysql  Ver 8.0.31 for Win64 on x86_64 (MySQL Community Server - GPL)
+
+Connection id:          18
+Current database:
+Current user:           testadm@localhost
+SSL:                    Cipher in use is TLS_AES_256_GCM_SHA384
+Using delimiter:        ;
+Server version:         8.0.31 MySQL Community Server - GPL
+Protocol version:       10
+Connection:             localhost via TCP/IP
+Server characterset:    utf8mb4
+Db     characterset:    utf8mb4
+Client characterset:    cp866
+Conn.  characterset:    cp866
+TCP port:               3306
+Binary data as:         Hexadecimal
+Uptime:                 1 hour 7 min 24 sec
+
+Threads: 3  Questions: 76  Slow queries: 0  Opens: 201  Flush tables: 3  Open tables: 120  Queries per second avg: 0.018
+--------------
+
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| performance_schema |
+| test               |
++--------------------+
+3 rows in set (0.00 sec)
+
+mysql> SHOW GRANTS FOR 'testadm'@'localhost';
++-----------------------------------------------------------+
+| Grants for testadm@localhost                              |
++-----------------------------------------------------------+
+| GRANT USAGE ON *.* TO `testadm`@`localhost`               |
+| GRANT ALL PRIVILEGES ON `test`.* TO `testadm`@`localhost` |
++-----------------------------------------------------------+
+2 rows in set (0.00 sec)
+
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| performance_schema |
+| test               |
++--------------------+
+3 rows in set (0.00 sec)
+
+mysql> USE test;
+Database changed
+mysql> CREATE TABLE office(
+    -> id INT AUTO_INCREMENT PRIMARY KEY,
+    -> number INT
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> SHOW TABLES;
++----------------+
+| Tables_in_test |
++----------------+
+| office         |
+| users          |
++----------------+
+2 rows in set (0.00 sec)
+
+mysql> show columns FROM office;
++--------+------+------+-----+---------+----------------+
+| Field  | Type | Null | Key | Default | Extra          |
++--------+------+------+-----+---------+----------------+
+| id     | int  | NO   | PRI | NULL    | auto_increment |
+| number | int  | YES  |     | NULL    |                |
++--------+------+------+-----+---------+----------------+
+2 rows in set (0.00 sec)
+
+mysql> CREATE TABLE hardware(
+    -> id INT AUTO_INCREMENT PRIMARY KEY,
+    -> hardware VARCHAR(255),
+    -> office_id INT,
+    -> FOREIGN KEY (office_id) references office(id)
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> SHOW TABLES;
++----------------+
+| Tables_in_test |
++----------------+
+| hardware       |
+| office         |
+| users          |
++----------------+
+3 rows in set (0.00 sec)
+
+mysql> show columns from hardware;
++-----------+--------------+------+-----+---------+----------------+
+| Field     | Type         | Null | Key | Default | Extra          |
++-----------+--------------+------+-----+---------+----------------+
+| id        | int          | NO   | PRI | NULL    | auto_increment |
+| hardware  | varchar(255) | YES  |     | NULL    |                |
+| office_id | int          | YES  | MUL | NULL    |                |
++-----------+--------------+------+-----+---------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> show columns from office;
++--------+------+------+-----+---------+----------------+
+| Field  | Type | Null | Key | Default | Extra          |
++--------+------+------+-----+---------+----------------+
+| id     | int  | NO   | PRI | NULL    | auto_increment |
+| number | int  | YES  |     | NULL    |                |
++--------+------+------+-----+---------+----------------+
+2 rows in set (0.00 sec)
+
+mysql> INSERT INTO office (number) values ("101");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO office (number) values ("102");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO office (number) values ("201");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO office (number) values ("202");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM office;
++----+--------+
+| id | number |
++----+--------+
+|  1 |    101 |
+|  2 |    102 |
+|  3 |    201 |
+|  4 |    202 |
++----+--------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT number FROM office;
++--------+
+| number |
++--------+
+|    101 |
+|    102 |
+|    201 |
+|    202 |
++--------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT * FROM office WHERE id=3;
++----+--------+
+| id | number |
++----+--------+
+|  3 |    201 |
++----+--------+
+1 row in set (0.00 sec)
+
+mysql> SELECT * FROM users ORDER BY surname;
++----+-----------+-----------+------+-----------------------+--------+
+| id | name      | surname   | age  | email                 | status |
++----+-----------+-----------+------+-----------------------+--------+
+|  2 | Oleh      | Chuyko    |   29 | chuiko@sample.mail    | work   |
+|  1 | Mykola    | Matvienko |   25 | matvienko@sample.mail | work   |
+|  4 | Oleksandr | Yuschenko |   27 | yuschenko@sample.mail | work   |
++----+-----------+-----------+------+-----------------------+--------+
+3 rows in set (0.00 sec)
+
+mysql> show columns from hardware;
++-----------+--------------+------+-----+---------+----------------+
+| Field     | Type         | Null | Key | Default | Extra          |
++-----------+--------------+------+-----+---------+----------------+
+| id        | int          | NO   | PRI | NULL    | auto_increment |
+| hardware  | varchar(255) | YES  |     | NULL    |                |
+| office_id | int          | YES  | MUL | NULL    |                |
++-----------+--------------+------+-----+---------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> ALTER TABLE hardware ADD inventory_number INT;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> show columns from hardware;
++------------------+--------------+------+-----+---------+----------------+
+| Field            | Type         | Null | Key | Default | Extra          |
++------------------+--------------+------+-----+---------+----------------+
+| id               | int          | NO   | PRI | NULL    | auto_increment |
+| hardware         | varchar(255) | YES  |     | NULL    |                |
+| office_id        | int          | YES  | MUL | NULL    |                |
+| inventory_number | int          | YES  |     | NULL    |                |
++------------------+--------------+------+-----+---------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> INSERT INTO hardware (hardware, office_id, inventory_number) VALUES ("PC",1,050123)
+    -> ;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO hardware (hardware, office_id, inventory_number) VALUES ("Monitor",1,050123);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO hardware (hardware, office_id, inventory_number) VALUES ("PC",1,050124);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO hardware (hardware, office_id, inventory_number) VALUES ("Monitor",1,050124);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO hardware (hardware, office_id, inventory_number) VALUES ("PC",3,050125);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO hardware (hardware, office_id, inventory_number) VALUES ("Monitor",3,050125);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO hardware (hardware, office_id, inventory_number) VALUES ("Printer",3,050126);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM hardware;
++----+----------+-----------+------------------+
+| id | hardware | office_id | inventory_number |
++----+----------+-----------+------------------+
+|  1 | PC       |         1 |            50123 |
+|  2 | Monitor  |         1 |            50123 |
+|  3 | PC       |         1 |            50124 |
+|  4 | Monitor  |         1 |            50124 |
+|  5 | PC       |         3 |            50125 |
+|  6 | Monitor  |         3 |            50125 |
+|  7 | Printer  |         3 |            50126 |
++----+----------+-----------+------------------+
+7 rows in set (0.00 sec)
+
+mysql> SELECT * FROM office;
++----+--------+
+| id | number |
++----+--------+
+|  1 |    101 |
+|  2 |    102 |
+|  3 |    201 |
+|  4 |    202 |
++----+--------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT * FROM users;
++----+-----------+-----------+------+-----------------------+--------+
+| id | name      | surname   | age  | email                 | status |
++----+-----------+-----------+------+-----------------------+--------+
+|  1 | Mykola    | Matvienko |   25 | matvienko@sample.mail | work   |
+|  2 | Oleh      | Chuyko    |   29 | chuiko@sample.mail    | work   |
+|  4 | Oleksandr | Yuschenko |   27 | yuschenko@sample.mail | work   |
++----+-----------+-----------+------+-----------------------+--------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM hardware GROUP BY hardware;
++----+----------+-----------+------------------+
+| id | hardware | office_id | inventory_number |
++----+----------+-----------+------------------+
+|  1 | PC       |         1 |            50123 |
+|  2 | Monitor  |         1 |            50123 |
+|  7 | Printer  |         3 |            50126 |
++----+----------+-----------+------------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM hardware GROUP BY id;
++----+----------+-----------+------------------+
+| id | hardware | office_id | inventory_number |
++----+----------+-----------+------------------+
+|  1 | PC       |         1 |            50123 |
+|  2 | Monitor  |         1 |            50123 |
+|  3 | PC       |         1 |            50124 |
+|  4 | Monitor  |         1 |            50124 |
+|  5 | PC       |         3 |            50125 |
+|  6 | Monitor  |         3 |            50125 |
+|  7 | Printer  |         3 |            50126 |
++----+----------+-----------+------------------+
+7 rows in set (0.00 sec)
+
+mysql> SELECT * FROM hardware ORDER BY hardware;
++----+----------+-----------+------------------+
+| id | hardware | office_id | inventory_number |
++----+----------+-----------+------------------+
+|  2 | Monitor  |         1 |            50123 |
+|  4 | Monitor  |         1 |            50124 |
+|  6 | Monitor  |         3 |            50125 |
+|  1 | PC       |         1 |            50123 |
+|  3 | PC       |         1 |            50124 |
+|  5 | PC       |         3 |            50125 |
+|  7 | Printer  |         3 |            50126 |
++----+----------+-----------+------------------+
+7 rows in set (0.00 sec)
+
+mysql> INSERT INTO hardware (hardware, office_id, inventory_number) VALUES ("scanner",3,050130);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM hardware ORDER BY hardware;
++----+----------+-----------+------------------+
+| id | hardware | office_id | inventory_number |
++----+----------+-----------+------------------+
+|  2 | Monitor  |         1 |            50123 |
+|  4 | Monitor  |         1 |            50124 |
+|  6 | Monitor  |         3 |            50125 |
+|  1 | PC       |         1 |            50123 |
+|  3 | PC       |         1 |            50124 |
+|  5 | PC       |         3 |            50125 |
+|  7 | Printer  |         3 |            50126 |
+|  8 | scanner  |         3 |            50130 |
++----+----------+-----------+------------------+
+8 rows in set (0.00 sec)
+
+mysql> DELETE FROM hardware WHERE hardware="scanner";
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| performance_schema |
+| test               |
++--------------------+
+3 rows in set (0.00 sec)
+
+mysql> USE test;
+Database changed
+
+mysql> SHOW tables;
++----------------+
+| Tables_in_test |
++----------------+
+| hardware       |
+| office         |
+| users          |
++----------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM hardware;
++----+----------+-----------+------------------+
+| id | hardware | office_id | inventory_number |
++----+----------+-----------+------------------+
+|  1 | PC       |         1 |            50123 |
+|  2 | Monitor  |         1 |            50123 |
+|  3 | PC       |         1 |            50124 |
+|  4 | Monitor  |         1 |            50124 |
+|  5 | PC       |         3 |            50125 |
+|  6 | Monitor  |         3 |            50125 |
+|  7 | Printer  |         3 |            50126 |
++----+----------+-----------+------------------+
+7 rows in set (0.00 sec)
+
+mysql> SELECT * FROM office;
++----+--------+
+| id | number |
++----+--------+
+|  1 |    101 |
+|  2 |    102 |
+|  3 |    201 |
+|  4 |    202 |
++----+--------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT * FROM users;
++----+-----------+-----------+------+-----------------------+--------+
+| id | name      | surname   | age  | email                 | status |
++----+-----------+-----------+------+-----------------------+--------+
+|  1 | Mykola    | Matvienko |   25 | matvienko@sample.mail | work   |
+|  2 | Oleh      | Chuyko    |   29 | chuiko@sample.mail    | work   |
+|  4 | Oleksandr | Yuschenko |   27 | yuschenko@sample.mail | work   |
++----+-----------+-----------+------+-----------------------+--------+
+3 rows in set (0.00 sec)
+
+mysql> show COLUMNS from hardware;
++------------------+--------------+------+-----+---------+----------------+
+| Field            | Type         | Null | Key | Default | Extra          |
++------------------+--------------+------+-----+---------+----------------+
+| id               | int          | NO   | PRI | NULL    | auto_increment |
+| hardware         | varchar(255) | YES  |     | NULL    |                |
+| office_id        | int          | YES  | MUL | NULL    |                |
+| inventory_number | int          | YES  |     | NULL    |                |
++------------------+--------------+------+-----+---------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> show COLUMNS from office;
++--------+------+------+-----+---------+----------------+
+| Field  | Type | Null | Key | Default | Extra          |
++--------+------+------+-----+---------+----------------+
+| id     | int  | NO   | PRI | NULL    | auto_increment |
+| number | int  | YES  |     | NULL    |                |
++--------+------+------+-----+---------+----------------+
+2 rows in set (0.00 sec)
+
+mysql> show COLUMNS from users;
++---------+--------------+------+-----+---------+----------------+
+| Field   | Type         | Null | Key | Default | Extra          |
++---------+--------------+------+-----+---------+----------------+
+| id      | int          | NO   | PRI | NULL    | auto_increment |
+| name    | varchar(64)  | YES  |     | NULL    |                |
+| surname | varchar(64)  | YES  |     | NULL    |                |
+| age     | tinyint      | YES  |     | NULL    |                |
+| email   | varchar(64)  | YES  |     | NULL    |                |
+| status  | varchar(128) | YES  |     | NULL    |                |
++---------+--------------+------+-----+---------+----------------+
+6 rows in set (0.00 sec)
+
+mysql> \q
+Bye
+
+C:\Program Files\MySQL\MySQL Server 8.0\bin>mysql -u testuser -p
+Enter password: ********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 19
+Server version: 8.0.31 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| performance_schema |
+| test               |
++--------------------+
+3 rows in set (0.00 sec)
+
+mysql> USE test;
+Database changed
+
+mysql> CREATE TABLE test(
+    -> id INT AUTO_INCREMENT PRIMARY KEY);
+ERROR 1142 (42000): CREATE command denied to user 'testuser'@'localhost' for table 'test'
+
+mysql> \s
+--------------
+mysql  Ver 8.0.31 for Win64 on x86_64 (MySQL Community Server - GPL)
+
+Connection id:          19
+Current database:       test
+Current user:           testuser@localhost
+SSL:                    Cipher in use is TLS_AES_256_GCM_SHA384
+Using delimiter:        ;
+Server version:         8.0.31 MySQL Community Server - GPL
+Protocol version:       10
+Connection:             localhost via TCP/IP
+Server characterset:    utf8mb4
+Db     characterset:    utf8mb4
+Client characterset:    cp866
+Conn.  characterset:    cp866
+TCP port:               3306
+Binary data as:         Hexadecimal
+Uptime:                 4 hours 38 min 48 sec
+
+Threads: 3  Questions: 146  Slow queries: 0  Opens: 231  Flush tables: 3  Open tables: 149  Queries per second avg: 0.008
+--------------
+
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| performance_schema |
+| test               |
++--------------------+
+3 rows in set (0.00 sec)
+
+mysql> USE test;
+Database changed
+
+mysql> CREATE TABLE test(
+    -> id INT AUTO_INCREMENT PRIMARY KEY);
+ERROR 1142 (42000): CREATE command denied to user 'testuser'@'localhost' for table 'test'
+
+mysql> SHOW GRANTS FOR 'testuser'@'localhost';
++----------------------------------------------------+
+| Grants for testuser@localhost                      |
++----------------------------------------------------+
+| GRANT USAGE ON *.* TO `testuser`@`localhost`       |
+| GRANT SELECT ON `test`.* TO `testuser`@`localhost` |
++----------------------------------------------------+
+2 rows in set (0.00 sec)

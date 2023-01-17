@@ -1,0 +1,42 @@
+show dbs
+
+use test
+
+db.createCollection("usrContacts")
+	
+db.createCollection("usrContact")
+
+db.usrContact.insertOne(
+	{
+		First_Name: "Test",
+		Last_Name: "User",
+		Date_Of_Birth: "1989-01-21",
+		e_mail: "test_user@gmail.com",
+		phone: "2646789589"
+	})
+	
+db.empDetails.insertMany(
+	[
+		{
+			First_Name: "Mykola",
+			Last_Name: "Matvienko",
+			Date_Of_Birth: "1995-09-26",
+			e_mail: "matvienko@sample.mail",
+			phone: "2124567890"
+		},
+		{
+			First_Name: "Oleh ",
+			Last_Name: "Chuyko",
+			Date_Of_Birth: "1990-02-16",
+			e_mail: "chuiko@sample.mail",
+			phone: "2124554321"
+		},
+		{
+			First_Name: "Oleksandr",
+			Last_Name: "Yuschenko",
+			Date_Of_Birth: "1990-02-16",
+			e_mail: "yuschenko@sample.mail",
+			phone: "2124557325"
+		}
+	]
+)
