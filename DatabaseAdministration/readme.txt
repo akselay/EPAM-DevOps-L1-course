@@ -1,4 +1,5 @@
 Database Administration TASK DB1
+https://github.com/akselay/EPAM-DevOps-L1-course/tree/main/DatabaseAdministration
 
 PART 1
 	1. Download MySQL server for your OS on VM. 
