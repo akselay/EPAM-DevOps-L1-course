@@ -1,6 +1,7 @@
 EPAM University Programs DevOps external course
-
 Module – Linux Networking
+https://github.com/akselay/EPAM-DevOps-L1-course/tree/main/Networks%20using%20Linux
+
 Практична частина модуля Linux Networking передбачає створення засобами Virtual Box мережі, що показаний на рисунку 1
 Host – це комп’ютер, на якому запущений Virtual Box;
 Server_1 – Віртуальна машина, на якій розгорнуто ОС Linux. Int1 цієї машини в режимі «Мережевий міст» підключений до мережі Net1, тобто знаходиться в адресному просторі домашньої мережі. IP-адреса Int1 встановлюється статично відповідно до адресного простору, наприклад 192.168.1.200/24. Інтерфейси Int2 та Int3 відповідно підключено в режимі «Внутрішня мережа» до мереж Net2 та Net3.
