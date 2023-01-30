@@ -2,8 +2,9 @@ EPAM University Programs
 Cloud&DevOps Fundamentals Autumn 2022
 AWS Cloud Basic
 
+Practical tasks (p.7-17):
 https://github.com/akselay/EPAM-DevOps-L1-course/tree/main/Virtualization%20and%20Cloud%20Basic%20(AWS)
-(Practical tasks contains in p.7-18)
+link to the website for p.18 - akselay.pp.ua
 
 1. Read the terms of Using the AWS Free Tier and the ability to control their own costs.
 2. Register with AWS (first priority) or alternatively, you can request access to courses in AWS Academy if you are currently a student of certain University.
