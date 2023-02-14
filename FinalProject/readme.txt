@@ -2,7 +2,7 @@ Final project
 "Deploy static website on AWS"
 
 Project demo on youtube - https://youtu.be/AmFW0Lzr5mk 
-List of commands & step-by-step tutorial - https://github.com/akselay/EPAM-DevOps-L1-course/FinalProject.git
+List of commands & step-by-step tutorial - https://github.com/akselay/EPAM-DevOps-L1-course/FinalProject
 
 Instruments used:
 	AWS
