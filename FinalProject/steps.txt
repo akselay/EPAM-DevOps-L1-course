@@ -1,6 +1,54 @@
-Create 3 EC2 instanses: ansible, jenkins and webserver
+AWS IAM:
 
-Allow http traffic from the internet (open port 80)
+Add user (IAM - Users - Add)
+
+Attach policies directly - AdministratorAccess
+
+User - Security Credentials - Access keys - add new - download
+
+Terraform:
+
+Install terraform on host machine
+
+Create aws_instances.tf
+
+provider "aws" {
+  access_key = "paste"
+  secret_key = "paste"
+  region = "eu-central-1"
+}
+
+resource "aws_instance" "ansible" {
+  ami = "ami-06616b7884ac98cdd"
+  instance_type = "t2.micro"
+  key_name = "general"
+  associate_public_ip_address = true
+  tags = {
+    Name = "ansible"
+  }
+}
+
+resource "aws_instance" "jenkins" {
+  ami = "ami-06616b7884ac98cdd"
+  instance_type = "t2.micro"
+  key_name = "general"
+  associate_public_ip_address = true
+  tags = {
+    Name = "jenkins"
+  }
+}
+
+resource "aws_instance" "webserver" {
+  ami = "ami-06616b7884ac98cdd"
+  instance_type = "t2.micro"
+  key_name = "general"
+  associate_public_ip_address = true
+  tags = {
+    Name = "webserver"
+  }
+}
+
+(for webserver) Allow http traffic from the internet (open port 80)
 
 On Ansible:
 
@@ -115,9 +163,9 @@ docker ps
 
 Copy container id
 
-docker logs (container id) a88541571af1
+docker logs (container id) daabb4f303b5
 
-Copy admin password a14792dfefb947ddac15c8b3c415037e
+Copy admin password c32b7bf5ccde4cfcba04185c4767b3b8
 
 Open port 8080 on EC2 traffic inbound rules
 
@@ -157,7 +205,7 @@ docker run -d -p 80:80 webserv:v1
 
 docker ps
 
-Copy container id for Jenkins f5ccf71315ed
+Copy container id for Jenkins 9c3f4998695d
 
 Switch to Jenkins and create a simple job with parameters:
 
@@ -183,8 +231,8 @@ Exec command (paste webserv:v1 container id)
 sudo rm -rf /var/www/*
 sudo rm -rf /var/www/html/.git
 sudo git clone https://github.com/akselay/testweb.git /var/www/html/
-docker exec bc5629fd15ef rm -rf /var/www/*
-docker cp /var/www/html/. bc5629fd15ef:/var/www/html/
+docker exec 9c3f4998695d rm -rf /var/www/*
+docker cp /var/www/html/. 9c3f4998695d:/var/www/html/
 
 Add webhook on GitHub repository settings:
 
@@ -203,6 +251,28 @@ Open any GitHub client, make changes to the website, in main.css add (for exampl
 -ms-animation: bg 60s linear infinite;
 animation: bg 60s linear infinite;
 
-Make push
+Edit index.html
+
+Make push (GitKraken)
 
 View changes
+
+------------
+after reboot
+------------
+
+MobaXterm - edit connections - Public IPv4 DNS (Jenkins, Webserver)
+
+On Jenkins:
+docker start daabb4f303b5
+
+Open Jenkins webpage
+pass c32b7bf5ccde4cfcba04185c4767b3b8
+
+Change & test Webserver IP on Jenkins - Manage configuration
+
+On Webserver:
+docker start 9c3f4998695d
+
+On GitHub - update Jenkins IP
+https://github.com/akselay/testweb/settings/hooks/399843087
